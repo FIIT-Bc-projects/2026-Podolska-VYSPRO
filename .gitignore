@@ -1,0 +1,7 @@
+# Training outputs
+output/
+output_ingredients_train_test/
+output_mix/
+output_my_food/
+output_train_split/
+output_train_test/
