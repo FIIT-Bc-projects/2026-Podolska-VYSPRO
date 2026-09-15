@@ -5,3 +5,20 @@ output_mix/
 output_my_food/
 output_train_split/
 output_train_test/
+
+# Local notebook and office artifacts
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+~$*.xlsx
+
+# Large local datasets (annotations and metadata remain versioned)
+dataset/images/
+dataset/gpt_images/*
+!dataset/gpt_images/rename.py
+dataset/extracted_objects/
+dataset/synthetic_dataset/train/
+dataset/synthetic_dataset/test/
+dataset_nutri_verse/Train/*
+!dataset_nutri_verse/Train/_annotations.coco.json
+dataset_nutri_verse/Test/*
+!dataset_nutri_verse/Test/_annotations.coco.json

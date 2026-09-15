@@ -49,9 +49,9 @@ The central research result is especially practical: when segmentation outputs, 
     <th width="33%">Copy-paste composite</th>
   </tr>
   <tr>
-    <td><img src="dataset/images/photo_100_2026-03-29_14-47-55.jpg" alt="Real food image" /></td>
-    <td><img src="dataset/gpt_images/photo_100_2026-04-27_18-09-09.jpg" alt="GPT-generated food image" /></td>
-    <td><img src="dataset/synthetic_dataset/train/train_00000.jpg" alt="Copy-paste synthetic food image" /></td>
+    <td align="center">Measured, manually annotated photographs</td>
+    <td align="center">AI-generated food scenes</td>
+    <td align="center">Generated plate compositions</td>
   </tr>
   <tr>
     <td align="center">Measured portions and manually verified masks</td>
@@ -165,7 +165,7 @@ On FIPreal, class-specific calibration reduced RMSE by **35.6%**, MAE by **43.9%
 
 ```text
 .
-├── first_experiment.ipynb          # full experimental workspace
+├── food_image_processing_experiments.ipynb  # full experimental workspace
 ├── train.json / test.json          # FIPreal 80/20 COCO split
 ├── train_annotations_gpt.json      # FIPgpt training annotations
 ├── test_annotations_gpt.json       # FIPgpt test annotations
@@ -186,6 +186,21 @@ On FIPreal, class-specific calibration reduced RMSE by **35.6%**, MAE by **43.9%
 
 ## Getting started
 
+### Canonical data layout
+
+Each image is stored only in its source dataset directory. Combined COCO files
+use repository-relative `file_name` values and do not require flattened copies
+such as `all_images/` or `ABSOLUTE_ALL_IMAGES/`:
+
+- `dataset/images/` — FIPreal images;
+- `dataset/gpt_images/` — FIPgpt images;
+- `dataset_nutri_verse/Train/` and `dataset_nutri_verse/Test/` — NutritionVerse-Real;
+- `dataset/merged_annotations/` — FIPreal + FIPgpt COCO splits, registered with `dataset/` as the image root;
+- `dataset/merged_final_annotations/*_fixed.json` — FIPextended COCO splits, registered with the repository root as the image root.
+
+Generated copy-paste images remain under `dataset/synthetic_dataset/`; their
+intermediate RGBA objects remain under `dataset/extracted_objects/`.
+
 ### Prerequisites
 
 - Python 3.10+
@@ -200,7 +215,7 @@ Detectron2 installation is platform- and CUDA-specific; follow its [official ins
 ```bash
 git clone https://github.com/FIIT-IDSA/fip-ai.git
 cd fip-ai
-jupyter lab first_experiment.ipynb
+jupyter lab food_image_processing_experiments.ipynb
 ```
 
 The notebook is an experiment log rather than a linear production script. Run the section matching the dataset configuration you want to reproduce, and review its paths and device setting (`cuda` or `cpu`) first. Model checkpoints and training-output directories are intentionally excluded from version control.
