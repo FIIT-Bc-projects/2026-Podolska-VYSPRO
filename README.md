@@ -177,8 +177,7 @@ On FIPreal, class-specific calibration reduced RMSE by **35.6%**, MAE by **43.9%
 │   ├── extracted_objects/          # class-grouped RGBA cut-outs
 │   ├── synthetic_dataset/          # generated images + COCO labels
 │   ├── merged_final_annotations/   # FIPextended train/test annotations
-│   ├── metadata.xlsx               # physical and nutritional metadata
-│   ├── dish_weights.csv            # per-dish ingredient weights
+│   ├── metadata.xlsx               # image, food-reference, and dish-weight metadata
 │   ├── extract.py                  # object extraction pipeline
 │   └── generate_synthetic.py       # copy-paste generator
 └── dataset_nutri_verse/            # NutritionVerse-Real data and metadata
