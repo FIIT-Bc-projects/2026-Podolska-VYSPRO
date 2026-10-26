@@ -1,6 +1,6 @@
 <div align="center">
 
-# FIP — Food Image Processing
+# NutriMass — Nutritional Mass Estimation from Food Images
 
 ### From a single RGB image to food instances, portion weight, and nutritional insight
 
@@ -19,7 +19,7 @@
 
 Recognizing *what* is on a plate is only the first step toward automatic dietary assessment. A useful system must also separate individual food items, estimate their quantity, and connect those estimates to nutritional information—ideally without depth sensors or specialized acquisition hardware.
 
-FIP investigates that full chain using monocular RGB images. It combines:
+NutriMass investigates that full chain using monocular RGB images. It combines:
 
 - **instance segmentation** with COCO-pretrained Mask R-CNN models;
 - **object-level physical metadata**, including measured weight, volume, and density;
