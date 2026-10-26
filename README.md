@@ -64,11 +64,11 @@ The repository snapshot contains the following core datasets:
 
 | Dataset | Images | Instances | Categories | Role |
 |---|---:|---:|---:|---|
-| FIPreal | 261 | 821 | 22 | Controlled real-world acquisition with physical metadata |
-| FIPgpt | 165 | 483 | 37 | AI-generated category and appearance enrichment |
-| Copy-paste synthetic | 750 | 2,238 | 37 in this snapshot | Automatically composed and annotated scenes |
+| NutriMass-Real | 261 | 821 | 22 | Controlled real-world acquisition with physical metadata |
+| NutriMass-GPT | 165 | 483 | 37 | AI-generated category and appearance enrichment |
+| NutriMass-Synthetic | 750 | 2,238 | 37 in this snapshot | Automatically composed and annotated scenes |
 | NutritionVerse-Real | 889 | 4,306 | 44 food classes¹ | Public-data baseline and extended taxonomy |
-| FIPextended | 1,315 | 5,610 | 61 | Combined NutritionVerse-Real + FIPreal + FIPgpt experiment |
+| NutriMass-61 | 1,315 | 5,610 | 61 | Combined NutritionVerse-Real + NutriMass-Real + NutriMass-GPT experiment |
 
 <sub>¹ The bundled COCO file contains one additional umbrella category, `food-ingredients`; the paper reports 44 food categories after excluding it.</sub>
 
@@ -101,7 +101,7 @@ Annotated real + GPT images
 
 ### 1. High-quality real-world data
 
-FIPreal was captured with an iPhone 15 under controlled lighting, camera distance, background, and plate conditions. Each image contains multiple separated ingredients. Food instances were weighed with 1 g precision; volume was measured by water displacement; density was derived from mass divided by volume. Polygon masks were prepared in CVAT with SAM 2 assistance and manually refined—a process requiring approximately 20 hours of annotation work.
+NutriMass-Real was captured with an iPhone 15 under controlled lighting, camera distance, background, and plate conditions. Each image contains multiple separated ingredients. Food instances were weighed with 1 g precision; volume was measured by water displacement; density was derived from mass divided by volume. Polygon masks were prepared in CVAT with SAM 2 assistance and manually refined—a process requiring approximately 20 hours of annotation work.
 
 ### 2. Scalable synthetic enrichment
 
@@ -114,7 +114,7 @@ Generation is deterministic by default (`RANDOM_SEED = 42`) and produces a 600/1
 
 ### 3. Instance segmentation
 
-The experiments fine-tune COCO-pretrained Mask R-CNN models in Detectron2. FIPreal and FIPgpt use ResNet-50-FPN for 4,000 iterations; the broader 61-class FIPextended configuration uses ResNet-101-FPN for 12,000 iterations. Multi-scale resizing and photometric augmentation support variation in scale and appearance.
+The experiments fine-tune COCO-pretrained Mask R-CNN models in Detectron2. NutriMass-Real and NutriMass-GPT use ResNet-50-FPN for 4,000 iterations; the broader 61-class NutriMass-61 configuration uses ResNet-101-FPN for 12,000 iterations. Multi-scale resizing and photometric augmentation support variation in scale and appearance.
 
 ### 4. Physically informed weight estimation
 
@@ -139,24 +139,24 @@ Dish weight is the sum of its retained object estimates. Calibration coefficient
 | Dataset configuration | Mask AP ↑ | AP50 ↑ | AP75 ↑ |
 |---|---:|---:|---:|
 | NutritionVerse-Real | 72.10 | 84.20 | 80.80 |
-| **FIPreal** | **89.40** | **94.10** | **92.00** |
-| FIPgpt | 58.95 | 60.47 | 60.47 |
-| Copy-paste synthetic | 52.80 | 58.60 | 55.00 |
-| FIPextended | 75.96 | 80.51 | 79.13 |
+| **NutriMass-Real** | **89.40** | **94.10** | **92.00** |
+| NutriMass-GPT | 58.95 | 60.47 | 60.47 |
+| NutriMass-Synthetic | 52.80 | 58.60 | 55.00 |
+| NutriMass-61 | 75.96 | 80.51 | 79.13 |
 
-FIPextended also reached **84.2% F1**, **85.8% recall**, and **99.0% Hamming accuracy** in the paper's multilabel recognition analysis while expanding the output space from 44 to 61 food categories.
+NutriMass-61 also reached **84.2% F1**, **85.8% recall**, and **99.0% Hamming accuracy** in the paper's multilabel recognition analysis while expanding the output space from 44 to 61 food categories.
 
 ### Dish-level weight estimation
 
 | Dataset configuration | Global RMSE (g) | Class-specific RMSE (g) ↓ | Global MAE (g) | Class-specific MAE (g) ↓ | Global MAPE | Class-specific MAPE ↓ |
 |---|---:|---:|---:|---:|---:|---:|
 | NutritionVerse-Real | 233.75 | **168.26** | 186.54 | **109.23** | 71.58% | **36.07%** |
-| **FIPreal** | 181.57 | **116.86** | 123.78 | **69.42** | 44.93% | **22.83%** |
-| FIPgpt | 216.62 | **153.43** | 156.48 | **112.62** | 47.59% | **34.24%** |
-| Copy-paste synthetic | 275.00 | **198.00** | 205.00 | **139.00** | 82.00% | **46.00%** |
-| FIPextended | 208.80 | **147.46** | 156.22 | **91.04** | 57.68% | **29.37%** |
+| **NutriMass-Real** | 181.57 | **116.86** | 123.78 | **69.42** | 44.93% | **22.83%** |
+| NutriMass-GPT | 216.62 | **153.43** | 156.48 | **112.62** | 47.59% | **34.24%** |
+| NutriMass-Synthetic | 275.00 | **198.00** | 205.00 | **139.00** | 82.00% | **46.00%** |
+| NutriMass-61 | 208.80 | **147.46** | 156.22 | **91.04** | 57.68% | **29.37%** |
 
-On FIPreal, class-specific calibration reduced RMSE by **35.6%**, MAE by **43.9%**, and MAPE by **49.2%** relative to global calibration.
+On NutriMass-Real, class-specific calibration reduced RMSE by **35.6%**, MAE by **43.9%**, and MAPE by **49.2%** relative to global calibration.
 
 > [!IMPORTANT]
 > The calibration comparison within each row is controlled: it uses the same model outputs, density inputs, and evaluation samples. Comparisons *between* dataset rows are descriptive rather than a controlled dataset-only ablation because backbones, schedules, augmentation, thresholds, and evaluation domains differ.
@@ -166,17 +166,17 @@ On FIPreal, class-specific calibration reduced RMSE by **35.6%**, MAE by **43.9%
 ```text
 .
 ├── food_image_processing_experiments.ipynb  # full experimental workspace
-├── train.json / test.json          # FIPreal 80/20 COCO split
-├── train_annotations_gpt.json      # FIPgpt training annotations
-├── test_annotations_gpt.json       # FIPgpt test annotations
+├── train.json / test.json          # NutriMass-Real 80/20 COCO split
+├── train_annotations_gpt.json      # NutriMass-GPT training annotations
+├── test_annotations_gpt.json       # NutriMass-GPT test annotations
 ├── dataset/
-│   ├── annotations/                # FIPreal COCO source annotations
-│   ├── annotations_gpt/            # FIPgpt COCO source annotations
+│   ├── annotations/                # NutriMass-Real COCO source annotations
+│   ├── annotations_gpt/            # NutriMass-GPT COCO source annotations
 │   ├── images/                     # controlled real photographs
 │   ├── gpt_images/                 # generated food scenes
 │   ├── extracted_objects/          # class-grouped RGBA cut-outs
 │   ├── synthetic_dataset/          # generated images + COCO labels
-│   ├── merged_final_annotations/   # FIPextended train/test annotations
+│   ├── merged_final_annotations/   # NutriMass-61 train/test annotations
 │   ├── metadata.xlsx               # image, food-reference, and dish-weight metadata
 │   ├── extract.py                  # object extraction pipeline
 │   └── generate_synthetic.py       # copy-paste generator
@@ -191,11 +191,11 @@ Each image is stored only in its source dataset directory. Combined COCO files
 use repository-relative `file_name` values and do not require flattened copies
 such as `all_images/` or `ABSOLUTE_ALL_IMAGES/`:
 
-- `dataset/images/` — FIPreal images;
-- `dataset/gpt_images/` — FIPgpt images;
+- `dataset/images/` — NutriMass-Real images;
+- `dataset/gpt_images/` — NutriMass-GPT images;
 - `dataset_nutri_verse/Train/` and `dataset_nutri_verse/Test/` — NutritionVerse-Real;
-- `dataset/merged_annotations/` — FIPreal + FIPgpt COCO splits, registered with `dataset/` as the image root;
-- `dataset/merged_final_annotations/*_fixed.json` — FIPextended COCO splits, registered with the repository root as the image root.
+- `dataset/merged_annotations/` — NutriMass-Real + NutriMass-GPT COCO splits, registered with `dataset/` as the image root;
+- `dataset/merged_final_annotations/*_fixed.json` — NutriMass-61 COCO splits, registered with the repository root as the image root.
 
 Generated copy-paste images remain under `dataset/synthetic_dataset/`; their
 intermediate RGBA objects remain under `dataset/extracted_objects/`.
@@ -238,7 +238,7 @@ This repository is a **research snapshot**. Its strengths are the complete data-
 
 Key experimental boundaries are:
 
-- FIPreal was acquired with one camera setup under controlled conditions; performance on unconstrained meal photography still requires independent validation.
+- NutriMass-Real was acquired with one camera setup under controlled conditions; performance on unconstrained meal photography still requires independent validation.
 - Monocular area-to-weight calibration depends on acquisition geometry and may need recalibration for different cameras, distances, resolutions, or presentation conditions.
 - GPT weights are prompt-specified nominal values, not physical measurements.
 - Copy-paste data showed a learnable signal but only moderate within-domain segmentation performance and limited observed transfer in the evaluated setup.
