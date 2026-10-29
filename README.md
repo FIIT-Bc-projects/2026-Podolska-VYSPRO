@@ -60,17 +60,24 @@ The central research result is especially practical: when segmentation outputs, 
   </tr>
 </table>
 
-The repository snapshot contains the following core datasets:
+The NutriMass data used by this project are published on
+[Hugging Face](https://huggingface.co/datasets/alisapodolska/NutriMass-61) and
+contain the following components:
 
 | Dataset | Images | Instances | Categories | Role |
 |---|---:|---:|---:|---|
-| NutriMass-Real | 261 | 821 | 22 | Controlled real-world acquisition with physical metadata |
-| NutriMass-GPT | 165 | 483 | 37 | AI-generated category and appearance enrichment |
-| NutriMass-Synthetic | 750 | 2,238 | 37 in this snapshot | Automatically composed and annotated scenes |
-| NutritionVerse-Real | 889 | 4,306 | 44 food classes¹ | Public-data baseline and extended taxonomy |
-| NutriMass-61 | 1,315 | 5,610 | 61 | Combined NutritionVerse-Real + NutriMass-Real + NutriMass-GPT experiment |
+| NutriMass-Real | 261 | 827 | 22 | Controlled real-world acquisition with physical metadata |
+| NutriMass-GPT | 145 | 456 | 37 | Deduplicated AI-generated category and appearance enrichment |
+| NutriMass-Synthetic | 750 | 2,238 | 37 | Automatically composed and annotated scenes |
+| **Total** | **1,156** | **3,521** | **37** | Complete published dataset |
 
-<sub>¹ The bundled COCO file contains one additional umbrella category, `food-ingredients`; the paper reports 44 food categories after excluding it.</sub>
+All components use the same global category IDs. NutriMass-Real has 209 train
+images with 653 instances and 52 test images with 174 instances. NutriMass-GPT
+has 103 train images with 324 instances and 42 test images with 132 instances.
+NutriMass-Synthetic has 600 train images with 1,797 instances and 150 test
+images with 441 instances. Real and GPT are split at scene level, so different
+views of the same scene do not cross partitions. Exact duplicate GPT images
+were removed before splitting.
 
 ## End-to-end methodology
 
